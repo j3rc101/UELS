@@ -4,7 +4,7 @@ A centralized database system and web application designed to streamline the bor
 
 ---
 
-## 📋 Table of Contents
+##  Table of Contents
 - [Overview](#overview)
 - [Problems Solved](#problems-solved)
 - [Key Functionalities](#key-functionalities)
@@ -15,12 +15,12 @@ A centralized database system and web application designed to streamline the bor
 
 ---
 
-## 📌 Overview
+##  Overview
 Managing university assets manually often leads to lost items, unmonitored damage, and administrative bottlenecks. This system provides a web-based portal backed by a relational database to handle equipment workflows end-to-end—from user registration and real-time inventory checking to automated overdue tracking and reporting.
 
 ---
 
-## ❓ Problems Solved
+##  Problems Solved
 * **Lost or Incomplete Records:** Eliminates paper logbooks with automated logging.
 * **Lack of Real-time Visibility:** Instantly shows who currently holds a specific asset.
 * **Unmonitored Due Dates:** Tracks overdue items to prevent late returns.
@@ -31,7 +31,7 @@ Managing university assets manually often leads to lost items, unmonitored damag
 
 ---
 
-## ✨ Key Functionalities
+##  Key Functionalities
 
 1. **User Registration & Management**  
    Store and manage detailed profiles for students, faculty, staff, and system administrators.
@@ -60,7 +60,7 @@ Managing university assets manually often leads to lost items, unmonitored damag
 
 ---
 
-## 👥 User Roles & Capabilities
+##  User Roles & Capabilities
 
 | User Type | Capabilities |
 | :--- | :--- |
@@ -71,7 +71,7 @@ Managing university assets manually often leads to lost items, unmonitored damag
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 * **Frontend:** HTML5, CSS3, JavaScript (ES6+), Bootstrap
 * **Backend:** PHP
@@ -81,7 +81,7 @@ Managing university assets manually often leads to lost items, unmonitored damag
 
 ---
 
-## 🗄️ Database Features & Architecture
+##  Database Features & Architecture
 
 To ensure high performance, data integrity, and strict access control, the underlying MySQL database implements:
 
@@ -97,7 +97,7 @@ To ensure high performance, data integrity, and strict access control, the under
 
 ---
 
-## 🚀 Getting Started / Local Setup
+##  Getting Started / Local Setup
 
 ### Prerequisites
 * [XAMPP](https://www.apachefriends.org/index.html) (PHP 8.x + MySQL)
