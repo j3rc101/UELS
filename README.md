@@ -1,138 +1,35 @@
-# University Equipment Borrowing and Management System
+# University Equipment Lending System (UELS)
 
-A centralized database system and web application designed to streamline the borrowing, returning, inventory monitoring, and condition tracking of university-owned equipment (such as power banks, chargers, keyboards, mice, printers, scanners, extension cords, projectors, and other academic assets).
+A PHP and MySQL web application for managing university equipment inventory, borrowers, lending/returns, overdue loans, and reports. Includes a student-facing equipment catalog.
 
----
+## Technology
+- PHP 8+ (PDO)
+- MySQL / MariaDB
+- HTML, CSS, JavaScript, Bootstrap 5
+- XAMPP for local development
 
-##  Table of Contents
-- [Overview](#overview)
-- [Problems Solved](#problems-solved)
-- [Key Functionalities](#key-functionalities)
-- [User Roles & Capabilities](#user-roles--capabilities)
-- [Tech Stack](#tech-stack)
-- [Database Features & Architecture](#database-features--architecture)
-- [Getting Started / Local Setup](#getting-started--local-setup)
+## Run locally with XAMPP
+1. Copy this repository folder to `C:\xampp\htdocs\uels`.
+2. Start **Apache** and **MySQL** in XAMPP.
+3. Open `http://localhost/phpmyadmin`.
+4. Import `database.sql`. The script creates the `uels_db` database and tables.
+5. Verify database settings in `config.php` (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`).
+6. Visit `http://localhost/uels/index.php?page=setup` and create the first administrator account. This setup page is disabled after an administrator exists.
+7. Sign in at `http://localhost/uels/`.
+8. As administrator or lending staff, add equipment and user accounts.
+9. Students and faculty can browse `http://localhost/uels/catalog.php` after signing in.
 
----
+## Student equipment catalog
+`catalog.php` is in the project root beside `index.php` and `config.php`. It reads active equipment from the same database inventory and supports searching by equipment name/asset code and filtering by category. Students cannot edit inventory; staff must process borrowing transactions.
 
-##  Overview
-Managing university assets manually often leads to lost items, unmonitored damage, and administrative bottlenecks. This system provides a web-based portal backed by a relational database to handle equipment workflows end-to-end—from user registration and real-time inventory checking to automated overdue tracking and reporting.
+## Roles
+- **Administrator:** user management, equipment management, transactions, and reports.
+- **Lending staff:** equipment management and lending/return operations.
+- **Student / faculty:** view their loan records and browse the equipment catalog.
 
----
-
-##  Problems Solved
-* **Lost or Incomplete Records:** Eliminates paper logbooks with automated logging.
-* **Lack of Real-time Visibility:** Instantly shows who currently holds a specific asset.
-* **Unmonitored Due Dates:** Tracks overdue items to prevent late returns.
-* **Double-Booking:** Prevents lending out items that are currently unavailable, reserved, or damaged.
-* **Condition Tracking:** Captures item condition before and after borrowing to hold users accountable for damage or loss.
-* **Inaccurate Inventory:** Maintains synchronized dynamic counts for available stock.
-* **Manual Reporting Delays:** Generates inventory, borrowing, damage, and transaction reports automatically.
-
----
-
-##  Key Functionalities
-
-1. **User Registration & Management**  
-   Store and manage detailed profiles for students, faculty, staff, and system administrators.
-2. **Equipment Inventory Management**  
-   Add, update, retire, and monitor all university physical assets.
-3. **Equipment Categorization**  
-   Group items into logical categories (e.g., Computer Accessories, Power Equipment, Office Equipment).
-4. **Real-time Availability Checking**  
-   Track asset status dynamically (`Available`, `Borrowed`, `Damaged`, `Under Maintenance`, `Unavailable`).
-5. **Borrowing Management**  
-   Record transaction details including borrower details, quantity, date/time borrowed, and anticipated return date.
-6. **Return Management**  
-   Process returned equipment, record return timestamps, and instantly make items available again.
-7. **Equipment Condition Monitoring**  
-   Inspect and record asset condition prior to checkout and immediately upon return.
-8. **Overdue Monitoring**  
-   Identify and flag transactions that pass the expected return date without clearance.
-9. **Borrowing History**  
-   Maintain comprehensive log history searchable by individual borrower or specific equipment item.
-10. **Reports Generation**  
-    Export and analyze reports on current inventory status, lending history, overdue list, and damaged items.
-11. **Search & Filtering**  
-    Quickly locate borrowers, specific assets, or historical transactions using filtered searches.
-12. **Authentication & Access Control**  
-    Role-based authentication ensures users can only access features permitted by their privilege level.
-
----
-
-##  User Roles & Capabilities
-
-| User Type | Capabilities |
-| :--- | :--- |
-| **Administrator** | Manage user accounts/roles, update equipment records, view all system transactions, generate global analytics reports, and configure system settings. |
-| **Lending Staff / Librarian** | Register borrowers, process checkouts and returns, inspect asset condition, verify availability, and manage overdue notices. |
-| **Student / Borrower** | Browse available items, submit borrowing requests, view active loans and return due dates, and view personal transaction history. |
-| **Faculty / Staff Borrower** | Browse available assets, request equipment for academic/event purposes, track active loans, and view personal transaction history. |
-
----
-
-##  Tech Stack
-
-* **Frontend:** HTML5, CSS3, JavaScript (ES6+), Bootstrap
-* **Backend:** PHP
-* **Database:** MySQL
-* **Local Server Environment:** XAMPP (Apache + MySQL)
-* **Development Tools:** Visual Studio Code, Git / GitHub
-
----
-
-##  Database Features & Architecture
-
-To ensure high performance, data integrity, and strict access control, the underlying MySQL database implements:
-
-* **Primary & Foreign Keys:** Enforce relational integrity across users, assets, and transactions.
-* **Database Normalization (up to 3NF):** Eliminates redundant data and ensures structural efficiency.
-* **SQL Constraints:** `NOT NULL`, `UNIQUE`, `CHECK`, and `DEFAULT` values to maintain clean data.
-* **Views:** Custom query views for quick lookup of active loans, overdue lists, and inventory summaries.
-* **Stored Procedures & Functions:** Encapsulate recurring business logic (e.g., calculating overdue days, issuing checkout validation).
-* **Triggers:** Automatically update asset availability status when a borrow or return record is created.
-* **Indexing:** Indexed fields on frequently searched columns (e.g., `user_id`, `equipment_id`, `borrow_date`) for fast search performance.
-* **Transaction Management:** ACID-compliant transaction blocks for multi-table updates during borrowing/return operations.
-* **User Roles & Access Privileges:** SQL-level user privileges to secure the backend architecture.
-
----
-
-##  Getting Started / Local Setup
-
-### Prerequisites
-* [XAMPP](https://www.apachefriends.org/index.html) (PHP 8.x + MySQL)
-* [Git](https://git-scm.com/)
-
-### Installation Steps
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/your-username/equipment-borrowing-system.git
-   cd equipment-borrowing-system
-   ```
-
-2. **Move Project to Local Server Directory**
-   Copy the project directory to your XAMPP `htdocs` folder:
-   * Windows: `C:\xampp\htdocs\equipment-borrowing-system`
-   * macOS: `/Applications/XAMPP/htdocs/equipment-borrowing-system`
-
-3. **Database Setup**
-   * Start Apache and MySQL in the XAMPP Control Panel.
-   * Open `http://localhost/phpmyadmin/` in your browser.
-   * Create a new database (e.g., `equipment_db`).
-   * Import the SQL file located at `/database/equipment_db.sql`.
-
-4. **Database Configuration**
-   Update your database connection credentials in the backend configuration file (e.g., `config/database.php`):
-   ```php
-   $host = "localhost";
-   $user = "root";
-   $pass = "";
-   $dbname = "equipment_db";
-   ```
-
-5. **Run the Application**
-   Open your browser and navigate to:
-   ```text
-   http://localhost/equipment-borrowing-system/
-   ```
+## Notes
+- This is a class-project/local-demo starter. Test all workflows before relying on it for real transactions.
+- Do not commit real credentials, private user data, or production database dumps to GitHub.
+- `config.php` uses default local XAMPP credentials. Update them for your environment.
+- Bootstrap is loaded from a CDN, so internet access is needed for its styles.
+- Self-service borrowing requests, password reset, email notifications, audit logs, and fine management are not included.
