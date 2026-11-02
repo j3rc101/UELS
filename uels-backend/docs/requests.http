@@ -1,0 +1,130 @@
+### UELS API test requests
+### Install the "REST Client" extension in VS Code (humao.rest-client), then click "Send Request" above any request.
+### Cookies (login session) are kept automatically between requests.
+
+@base = http://localhost/uels-backend/api
+
+### 0. Health check
+GET {{base}}/health
+
+### 1. First-time setup: create the first administrator (works only once)
+POST {{base}}/setup
+Content-Type: application/json
+
+{
+  "id_number": "ADMIN-001",
+  "first_name": "System",
+  "last_name": "Admin",
+  "email": "admin@university.edu",
+  "password": "ChangeMe123!"
+}
+
+### 2. Login
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{
+  "login": "admin@university.edu",
+  "password": "ChangeMe123!"
+}
+
+### 3. Who am I?
+GET {{base}}/auth/me
+
+### 4. Dashboard
+GET {{base}}/dashboard
+
+### 5. Create a lending staff account (admin only)
+POST {{base}}/users
+Content-Type: application/json
+
+{
+  "id_number": "STAFF-001",
+  "first_name": "Lena",
+  "last_name": "Librarian",
+  "email": "staff@university.edu",
+  "password": "Staff12345!",
+  "role": "staff",
+  "department": "Library"
+}
+
+### 6. Register a student (public self-registration)
+POST {{base}}/auth/register
+Content-Type: application/json
+
+{
+  "id_number": "2024-00001",
+  "first_name": "Juan",
+  "last_name": "Dela Cruz",
+  "email": "juan@university.edu",
+  "password": "Student123!",
+  "role": "student",
+  "department": "BSIT"
+}
+
+### 7. Search the equipment list
+GET {{base}}/equipment?q=power&available_only=1
+
+### 8. Add equipment (admin)
+POST {{base}}/equipment
+Content-Type: application/json
+
+{
+  "asset_tag": "CMP-100",
+  "name": "Webcam 1080p",
+  "category_id": 1,
+  "total_quantity": 5,
+  "condition_status": "excellent",
+  "location": "Equipment Room"
+}
+
+### 9. Borrower requests equipment (log in as the student first)
+POST {{base}}/loans/request
+Content-Type: application/json
+
+{
+  "equipment_id": 1,
+  "quantity": 1,
+  "due_date": "2026-11-05",
+  "purpose": "Thesis defense"
+}
+
+### 10. Staff: list pending requests
+GET {{base}}/loans?status=pending
+
+### 11. Staff: approve & issue (replace 1 with the loan id)
+POST {{base}}/loans/1/issue
+Content-Type: application/json
+
+{ "condition_before": "good" }
+
+### 12. Staff: walk-in borrowing
+POST {{base}}/loans
+Content-Type: application/json
+
+{
+  "borrower_id": 2,
+  "equipment_id": 4,
+  "quantity": 1,
+  "due_date": "2026-11-04",
+  "purpose": "Class presentation"
+}
+
+### 13. Staff: receive a return
+POST {{base}}/loans/1/return
+Content-Type: application/json
+
+{ "condition_after": "good", "remarks": "Returned complete" }
+
+### 14. Overdue items
+GET {{base}}/loans/overdue
+
+### 15. Reports (add &format=csv to download a CSV)
+GET {{base}}/reports/inventory
+###
+GET {{base}}/reports/borrowing?from=2026-11-01&to=2026-11-30
+###
+GET {{base}}/reports/overdue?format=csv
+
+### 16. Logout
+POST {{base}}/auth/logout
